@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Saved Table</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg "style="background-color:#ffdf00;">
+    <div class="container-fluid">
+      <a  class="navbar-brand" href="/"><span style="color:#F73173;font-weight:700;font-family: 'Sacramento', cursive;font-weight:bolder;">Astrology</span></a>
+
+      <div style="color:#F73173" class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link "style="color:#F73173;font-weight:700" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link "style="color:#F73173;font-weight:700" href="/data">Data List</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <br>
+  <center>
+    <img src="ganesh.png" alt="Ganesh" height="100px">
+    <h4 style="color:orange">Shree Ganeshay Namah</h4>
+
+  </center>
+  <hr noshade style="color:black">
+  <center>
+    <h3 style="color:#9B1FE8"class="list_1">Data List </h3>
+    <div class="accordion  w-75" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button p-1 m-0 collapsed" style="border:2px solid #FF5733"type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            <center><strong style="color:#9B1FE8">Search (Click)</strong></center>
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <form class="" action="/search" method="post">
+              <div class="mb-3 w-25">
+                <input name="searchFilter" style="border:2px solid #E52B50;" type="text" class="form-control-sm" id="exampleInputEmail1" placeholder="Chaldean number" aria-describedby="emailHelp">
+                <button type="submit" class="btn rounded submit" style="background-color: #E52B50;color: white;padding: 3px;width:150px;margin-top:12px;" name="search">Submit</button>
+
+            </form><br><br>
+          </div>
+          <form class="" action="/searchp" method="post">
+            <div class="mb-3 w-25">
+              <input name="pythagorean" style="border:2px solid #E52B50;" type="text" class="form-control-sm" id="exampleInputEmail1" placeholder="Pythagorean number" aria-describedby="emailHelp">
+              <button type="submit" class="btn rounded submit" style="background-color: #E52B50;color: white;padding: 3px;width:150px;margin-top:12px;" name="search">Submit</button>
+          </form><br><br>
+
+        </div>
+        <br><br>
+      </div>
+    </div>
+    </div>
+    </div>
+    <br><br>
+
+
+  </center>
+
+  <section class="table">
+    <center>
+      <table class="table-bordered full_table_saved" border="1" style="border-collapse: collapse;width:90%;">
+        <thead class="c_pad_head "style="background-color:#9B1FE8">
+          <tr>
+
+            <th>LC</th>
+            <th class="list_b">Group</th>
+            <th class="list_b">Name</th>
+            <th class="list_b">Total</th>
+            <th class="list_b">V</th>
+            <th class="list_b">C</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody style="color:white;">
+
+          <% allData.forEach(function(letter){  %>
+          <% let chaldean = letter.chaldean %>
+          <% let pythogorous = letter.pythogorous %>
+
+          <tr style="background-color:#FFFAA0;color:black">
+
+            <td><strong><span id="tot_letters"><%=letter.tot_letters%></span></strong></td>
+            <td>N</td>
+            <td>
+              <table id="name_g2_block"> <%-chaldean %></table>
+            </td>
+            <td id="g2tot"><%=letter.g2tot%></td>
+            <td id="g2vtot"><%=letter.g2vtot%></td>
+            <td id="g2nettot"><%=letter.g2nettot%></td>
+            <td>
+              <form class="" action="/delete" method="post">
+                <button style="border-radius:7px;" class="btn btn-danger " type="submit" name="checkbox" value="<%= letter._id %>">Delete</button>
+
+
+              </form>
+            </td>
+          </tr>
+          <tr style="background-color:#FFFAA0;color:black;">
+
+            <td></td>
+            <td>S</td>
+            <td>
+              <table id="name_g3_block"><%-pythogorous%></table>
+            </td>
+            <td id="g3tot"><%=letter.g3tot%></td>
+            <td id="g3vtot"><%=letter.g3vtot%></td>
+            <td id="g3nettot"><%=letter.g3nettot%></td>
+            <td></td>
+
+          </tr>
+          <tr style="color:white">
+            <td></td>
+            <td>
+              </td>
+            <td></td>
+            <td>-</td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+          </tr>
+
+
+
+          <% }) %>
+
+        </tbody>
+
+      </table>
+    </center>
+    <br><br>
+  </section>
+  <footer id="sticky-footer" class="f_ flex-shrink-0 py-4 "style="background-color:#ffdf00;color:#F73173">
+    <div class="container text-center">
+      <small>Copyright &copy; Astrology</small><br><br>
+      <small>Made by</small>
+      <strong>
+        <h4 style="color:#F73173;font-weight:700;"><span style="font-family: 'Sacramento', cursive;font-weight:900;">🔥Raghunadh Hital🔥</span></h4>
+      </strong>
+    </div>
+  </footer>
+
+
+
+</body>
+
+</html>
