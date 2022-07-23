@@ -16,7 +16,10 @@ mongoose.connect("mongodb+srv://raghunadh:raghunadh@cluster0.croak62.mongodb.net
 //5)print
 
 const itemsSchema = {
-  chaldean: String,
+  chaldean: {
+    type: String,
+    unique: true
+  },
   pythogorous: String,
   tot_letters: String,
   g2tot: String,
@@ -67,6 +70,7 @@ app.post("/data", function(req, res) {
   Item.find({}, function(err, foundItems) {
     if (foundItems) {
       Item.insertMany(itemData, function(err) {
+
         res.redirect("/data")
         // res.render('saved',{allData:foundItems})
       })
