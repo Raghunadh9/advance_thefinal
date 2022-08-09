@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
@@ -9,25 +10,22 @@ app.use(express.static(__dirname))
 app.use(bodyParser.urlencoded({
   extended: true
 }))
-mongoose.connect("mongodb+srv://raghunadh:raghunadh@cluster0.croak62.mongodb.net/Numerology", {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true
 })
-
-//5)print
-
 const itemsSchema = {
   chaldean: {
     type: String,
     unique: true
   },
   pythogorous: String,
-  tot_letters: String,
-  g2tot: String,
-  g3tot: String,
-  g2vtot: String,
-  g3vtot: String,
-  g2nettot: String,
-  g3nettot: String,
+  tot_letters: Number,
+  g2tot: Number,
+  g3tot: Number,
+  g2vtot: Number,
+  g3vtot: Number,
+  g2nettot: Number,
+  g3nettot: Number,
 }
 const Item = mongoose.model("Item", itemsSchema)
 app.get("/", function(req, res) {
@@ -70,7 +68,6 @@ app.post("/data", function(req, res) {
   Item.find({}, function(err, foundItems) {
     if (foundItems) {
       Item.insertMany(itemData, function(err) {
-
         res.redirect("/data")
         // res.render('saved',{allData:foundItems})
       })
@@ -134,18 +131,26 @@ app.post("/", function(req, res) {
       chunks.push(chunk)
     })
     response.on('end', function() {
+      let number = parseInt(req.body.number);
+      let validNumber;
+      if(number === null || isNaN(number) || number===0){
+        validNumber = " "
+      }else{
+        validNumber = number;
+      }
       const data = Buffer.concat(chunks)
       var fullData = JSON.parse(data);
       var chaldean = fullData.name_g2_block;
       var pythogorous = fullData.name_g3_block;
       var tot_letters = fullData.tot_letters;
-      var g2tot = fullData.g2tot;
-      var g3tot = fullData.g3tot;
+      var g2tot =fullData.g2tot+validNumber ;
+      var g3tot = fullData.g3tot+validNumber;
       var g2vtot = fullData.g2vtot;
       var g3vtot = fullData.g3vtot;
       var g2nettot = fullData.g2nettot;
       var g3nettot = fullData.g3nettot;
       let queryAll = req.body.query;
+
       res.write(`<!DOCTYPE html>
       <html lang="en" dir="ltr">
         <head>
@@ -197,8 +202,9 @@ app.post("/", function(req, res) {
             <form action="/" method="post" class="login-form">
               <div class="form-group w-75">
                 <label style="color:#9B1FE8;font-weight:700"for="heaven">Name:</label><br>
-                <input id="heaven"style="border:2px solid #FF5733" type="text" value="${query}"name="query" class="form-control-sm w-75" placeholder="Name" required>
-                <button type="submit" class="btn rounded submit" style="background-color: #E52B50;color: white;padding: 3px;width:150px;margin-left:630px;margin-top:12px;">Calculate</button>
+                <input id="heaven"style="border:2px solid #DC3545;color:#9B1FE8;font-weight:800" type="text" value="${query}"name="query" class="form-control-sm w-75" placeholder="Name" required>
+                <input style="border:2px solid #DC3545;color:#9B1FE8;font-weight:800" type="number" name="number"value="${validNumber}" class=" form-control-sm w-25" placeholder="Number">
+                <button type="submit" class="btn rounded submit" style="background-color: #DC3545;color: white;padding: 3px;width:150px;margin-left:630px;margin-top:12px;">Calculate</button>
               </div>
 
               <div class="form-group">
@@ -224,26 +230,26 @@ app.post("/", function(req, res) {
 					</tr>
 				</thead>
 				<tbody>
-						<td>N</td>
+						<td style="color:#9B1FE8;font-weight:800;">N ${validNumber}</td>
 						<td>
-							<table id="name_g2_block">&nbsp;${chaldean}<input id="o"type="text"name="chaldean"value="${chaldean}"</input></table>
+							<table style="color:#9B1FE8;font-weight:800;" id="name_g2_block">&nbsp;${chaldean}<input id="o"type="text"name="chaldean"value="${chaldean}"</input></table>
 						</td>
-						<td  style="padding:15px"id="g2tot">${g2tot}<input id="o"type="text"name="g2tot"value="${g2tot}"</input></td>
-						<td style="padding:15px"id="g2vtot">${g2vtot}<input id="o"type="text"name="g2vtot"value="${g2vtot}"</input></td>
-						<td style="padding:15px"id="g2nettot">${g2nettot}<input id="o"type="text"name="g2nettot"value="${g2nettot}"</input></td>
+						<td  style="padding:15px;color:#9B1FE8;font-weight:800;"id="g2tot">${g2tot}<input id="o"type="text"name="g2tot"value="${g2tot}"</input></td>
+						<td style="padding:15px;color:#9B1FE8;font-weight:800;"id="g2vtot">${g2vtot}<input id="o"type="text"name="g2vtot"value="${g2vtot}"</input></td>
+						<td style="padding:15px;color:#9B1FE8;font-weight:800;"id="g2nettot">${g2nettot}<input id="o"type="text"name="g2nettot"value="${g2nettot}"</input></td>
 					</tr>
 					<tr>
-						<td>S</td>
+						<td style="color:#9B1FE8;font-weight:800;">S ${validNumber}</td>
 						<td>
-							<table id="name_g3_block">${pythogorous}<input id="o"type="text"name="pythogorous"value="${pythogorous}"</input></table>
+							<table style="color:#9B1FE8;font-weight:800;"id="name_g3_block">${pythogorous}<input id="o"type="text"name="pythogorous"value="${pythogorous}"</input></table>
 						</td>
-						<td style="padding:15px"id="g3tot">${g3tot}<input id="o"type="text"name="g3tot"value="${g3tot}"</input></td>
-						<td style="padding:15px"id="g3vtot">${g3vtot}<input id="o"type="text"name="g3vtot"value="${g3vtot}"</input></td>
-						<td style="padding:15px"id="g3nettot">${g3nettot}<input id="o"type="text"name="g3nettot"value="${g3nettot}"</input></td>
+						<td style="padding:15px;color:#9B1FE8;font-weight:800;"id="g3tot">${g3tot}<input id="o"type="text"name="g3tot"value="${g3tot}"</input></td>
+						<td style="padding:15px;color:#9B1FE8;font-weight:800;"id="g3vtot">${g3vtot}<input id="o"type="text"name="g3vtot"value="${g3vtot}"</input></td>
+						<td style="padding:15px;color:#9B1FE8;font-weight:800;"id="g3nettot">${g3nettot}<input id="o"type="text"name="g3nettot"value="${g3nettot}"</input></td>
 					</tr>
 					<tr>
 						<td>
-							<strong> Name letters count - </strong><span id="tot_letters">${tot_letters}<input id="o"type="text"name="tot_letters"value="${tot_letters}"</input></span><br>
+							<strong style="color:#9B1FE8;font-weight:800;"> Name letters count - </strong><span style="color:#9B1FE8;font-weight:800;"id="tot_letters">${tot_letters}<input id="o"type="text"name="tot_letters"value="${tot_letters}"</input></span><br>
 						</td>
 						<td>
             </td>
