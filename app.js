@@ -1,22 +1,28 @@
-require('dotenv').config()
-const express = require('express');
-const bodyParser = require('body-parser');
+require("dotenv").config();
+const express = require("express");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 var https = require("https");
-let theftData = []
+let theftData = [];
 const app = express();
-app.set('view engine', 'ejs');
-app.use(express.static(__dirname))
-app.use(bodyParser.urlencoded({
-  extended: true
-}))
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true
-})
+app.set("view engine", "ejs");
+app.use(express.static(__dirname));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+
+mongoose.connect(
+  "mongodb+srv://admin-raghunadh:pradyumna@cluster0.dlrxw.mongodb.net/numer?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+  }
+);
 const itemsSchema = {
   chaldean: {
     type: String,
-    unique: true
+    unique: true,
   },
   pythogorous: String,
   tot_letters: Number,
@@ -26,25 +32,25 @@ const itemsSchema = {
   g3vtot: Number,
   g2nettot: Number,
   g3nettot: Number,
-}
-const Item = mongoose.model("Item", itemsSchema)
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/index.html")
-})
-app.get("/data", function(req, res) {
-  Item.find({}, function(err, found) {
+};
+const Item = mongoose.model("Item", itemsSchema);
+app.get(["/", "/:id"], function (req, res) {
+  res.render("index.ejs", { paramName: req.params.id });
+});
+app.get("/data", function (req, res) {
+  Item.find({}, function (err, found) {
     if (err) {
       console.log(err);
-      res.render('error');
+      res.render("error");
     } else {
-      res.render('saved', {
-        allData: found
-      })
+      res.render("saved", {
+        allData: found,
+      });
     }
   });
-})
+});
 
-app.post("/data", function(req, res) {
+app.post("/data", function (req, res) {
   const chaldeana = req.body.chaldean;
   const pythogorousa = req.body.pythogorous;
   const tot_lettersa = req.body.tot_letters;
@@ -65,86 +71,92 @@ app.post("/data", function(req, res) {
     g2nettot: g2nettota,
     g3nettot: g3nettota,
   });
-  Item.find({}, function(err, foundItems) {
+  Item.find({}, function (err, foundItems) {
     if (foundItems) {
-      Item.insertMany(itemData, function(err) {
-        res.redirect("/data")
+      Item.insertMany(itemData, function (err) {
+        res.redirect("/data");
         // res.render('saved',{allData:foundItems})
-      })
-
+      });
     } else {
-      res.render('saved', {
-        allData: foundItems
-      })
+      res.render("saved", {
+        allData: foundItems,
+      });
     }
   });
 });
-app.post("/delete", function(req, res) {
+app.post("/delete", function (req, res) {
   const checkedItemId = req.body.checkbox;
-  Item.findByIdAndRemove(checkedItemId, function(err) {
+  Item.findByIdAndRemove(checkedItemId, function (err) {
     if (!err) {
-      res.redirect("/data")
+      res.redirect("/data");
     } else {
       console.log("Err:" + err);
-      res.render('error')
+      res.render("error");
     }
-  })
-})
-app.post("/search", function(req, res) {
+  });
+});
+app.post("/search", function (req, res) {
   const searchFilter = req.body.searchFilter;
-  Item.find({
-    g2tot: searchFilter
-  }, function(err, foundSearch) {
-    if (err) {
-      console.log(err);
-      res.render('error')
-    } else {
-      res.render('saved', {
-        allData: foundSearch
-      })
-    };
-  })
-})
+  Item.find(
+    {
+      g2tot: searchFilter,
+    },
+    function (err, foundSearch) {
+      if (err) {
+        console.log(err);
+        res.render("error");
+      } else {
+        res.render("saved", {
+          allData: foundSearch,
+        });
+      }
+    }
+  );
+});
 
 // pythagorean
-app.post("/searchp", function(req, res) {
+app.post("/searchp", function (req, res) {
   const searchpythagorean = req.body.pythagorean;
-  Item.find({
-    g3tot: searchpythagorean
-  }, function(err, foundPyth) {
-    if (err) {
-      console.log(err);
-      res.render('error')
-    } else {
-      res.render('saved', {
-        allData: foundPyth
-      })
+  Item.find(
+    {
+      g3tot: searchpythagorean,
+    },
+    function (err, foundPyth) {
+      if (err) {
+        console.log(err);
+        res.render("error");
+      } else {
+        res.render("saved", {
+          allData: foundPyth,
+        });
+      }
     }
-  })
-})
-app.post("/", function(req, res) {
+  );
+});
+
+app.post("/", function (req, res) {
   var query = req.body.query;
-  var url = ("https://roohhi.com/convert?name=" + query)
-  https.get(url, function(response) {
-    const chunks = []
-    response.on('data', function(chunk) {
-      chunks.push(chunk)
-    })
-    response.on('end', function() {
+  var url = "https://zeppoh.com/convert?name=" + query;
+  https.get(url, function (response) {
+    const chunks = [];
+    response.on("data", function (chunk) {
+      chunks.push(chunk);
+    });
+    response.on("end", function () {
       let number = parseInt(req.body.number);
       let validNumber;
-      if(number === null || isNaN(number) || number===0){
-        validNumber = " "
-      }else{
+      if (number === null || isNaN(number) || number === 0) {
+        validNumber = " ";
+      } else {
         validNumber = number;
       }
-      const data = Buffer.concat(chunks)
+      const data = Buffer.concat(chunks);
       var fullData = JSON.parse(data);
       var chaldean = fullData.name_g2_block;
       var pythogorous = fullData.name_g3_block;
       var tot_letters = fullData.tot_letters;
-      var g2tot =fullData.g2tot+validNumber ;
-      var g3tot = fullData.g3tot+validNumber;
+      var g2tot = fullData.g2tot + validNumber;
+      var g3tot = fullData.g3tot + validNumber;
       var g2vtot = fullData.g2vtot;
       var g3vtot = fullData.g3vtot;
       var g2nettot = fullData.g2nettot;
@@ -276,15 +288,15 @@ app.post("/", function(req, res) {
                       </center>
         </body>
       </html>
-        `)
+        `);
       res.send();
-    })
-  })
-})
+    });
+  });
+});
 let port = process.env.PORT;
 if (port == null || port == "") {
   port = 8000;
 }
-app.listen(port, function(req, res) {
+app.listen(port, function (req, res) {
   console.log("Yes!");
 });
