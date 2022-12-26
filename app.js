@@ -34,10 +34,10 @@ const itemsSchema = {
   g3nettot: Number,
 };
 const Item = mongoose.model("Item", itemsSchema);
-app.get(["/", "/:id"], function (req, res) {
+app.get(["/:id"], function (req, res) {
   res.render("index.ejs", { paramName: req.params.id });
 });
-app.get("/data", function (req, res) {
+app.get("/mongo/data", function (req, res) {
   Item.find({}, function (err, found) {
     if (err) {
       console.log(err);
@@ -50,7 +50,7 @@ app.get("/data", function (req, res) {
   });
 });
 
-app.post("/data", function (req, res) {
+app.post("/mongo/data", function (req, res) {
   const chaldeana = req.body.chaldean;
   const pythogorousa = req.body.pythogorous;
   const tot_lettersa = req.body.tot_letters;
@@ -74,7 +74,7 @@ app.post("/data", function (req, res) {
   Item.find({}, function (err, foundItems) {
     if (foundItems) {
       Item.insertMany(itemData, function (err) {
-        res.redirect("/data");
+        res.redirect("/mongo/data");
         // res.render('saved',{allData:foundItems})
       });
     } else {
@@ -88,7 +88,7 @@ app.post("/delete", function (req, res) {
   const checkedItemId = req.body.checkbox;
   Item.findByIdAndRemove(checkedItemId, function (err) {
     if (!err) {
-      res.redirect("/data");
+      res.redirect("/mongo/data");
     } else {
       console.log("Err:" + err);
       res.render("error");
@@ -197,7 +197,7 @@ app.post("/", function (req, res) {
                   <a class="nav-link "style="color:#F73173;font-weight:700" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link "style="color:#F73173;font-weight:700" href="/data">Data List</a>
+                  <a class="nav-link "style="color:#F73173;font-weight:700" href="/mongo/data">Data List</a>
                 </li>
               </ul>
             </div>
@@ -228,7 +228,7 @@ app.post("/", function (req, res) {
           <div class="container">
           <section class="table">
 
-          <form action="/data"method="post">
+          <form action="/mongo/data"method="post">
 
           <table
           class="table-bordered full_table"  style="border-collapse: collapse;width:90%;">
