@@ -204,6 +204,7 @@ app.post("/", function (req, res) {
                 Astrology
               </a>
           </h1>
+          
         
           <!-- navigation -->
           <nav class="nav font-semibold text-lg">
@@ -237,18 +238,18 @@ app.post("/", function (req, res) {
                         <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                             <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
-                          <input id="default-search"  type="text"
-                              value="${query}" name="query" class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus-within:border-green focus-within:ring focus-within:ring-green dark:focus-within:border-green focus-within:ring-opacity-20" placeholder="Search Name Here" required>
+                          <input id="default-search"  type="text" 
+                              value="${query}" name="query" class="block p-2 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus-within:border-green focus-within:ring focus-within:ring-green dark:focus-within:border-green focus-within:ring-opacity-20" placeholder="Search Name Here" onkeyup="this.value = this.value.replace(/[^a-zA-Z ]/g, '')" required>
                           <!-- <input  type="number" name="number"
                               value="${validNumber}" class=" form-control-sm w-25" placeholder="Number"> -->
-                          <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Calculate</button>
+                          <button type="submit" class="text-white absolute right-0 bottom-0 bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Calculate</button>
                       </div><br>
                       <div class="relative">
                           <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                             <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
                         <input  type="number" name="number"
-                        value="${validNumber}" class="block p-4 pl-10 w-md text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus-within:border-green focus-within:ring focus-within:ring-green dark:focus-within:border-green focus-within:ring-opacity-20"placeholder="Type Number Here" >
+                        value="${validNumber}" class="block p-2 pl-10 w-md text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus-within:border-green focus-within:ring focus-within:ring-green dark:focus-within:border-green focus-within:ring-opacity-20"placeholder="Type Number Here" >
                       </div>
                   </form>
                 </div>
