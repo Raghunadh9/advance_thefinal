@@ -1,11 +1,2 @@
- <form class="" action="/search" method="post">
-              <div class="mb-3 w-25">
-                <input name="searchFilter" style="border:2px solid #E52B50;" type="text" class="form-control-sm" id="exampleInputEmail1" placeholder="Chaldean number" aria-describedby="emailHelp">
-                <button type="submit" class="btn rounded submit" style="background-color: #E52B50;color: white;padding: 3px;width:150px;margin-top:12px;" name="search">Submit</button>
-
-            </form>
- <form class="" action="/searchp" method="post">
-            <div class="mb-3 w-25">
-              <input name="pythagorean" style="border:2px solid #E52B50;" type="text" class="form-control-sm" id="exampleInputEmail1" placeholder="Pythagorean number" aria-describedby="emailHelp">
-              <button type="submit" class="btn rounded submit" style="background-color: #E52B50;color: white;padding: 3px;width:150px;margin-top:12px;" name="search">Submit</button>
-          </form>
+ <img src="ganesh.png" alt="Ganesh" class="h-20">
+    <h4 class="text-green-500 font-bold text-lg">Shree Ganeshay Namah</h4>

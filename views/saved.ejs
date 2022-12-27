@@ -41,15 +41,7 @@
   
   </header>
   <br>
-  <center>
-    <center>
-  
-      <h4 class="text-green-500 font-bold text-lg">Shree Ganeshay Namah</h4>
-  
-    </center>
 
-  </center>
-  <hr noshade style="color:black">
   <center>
     
     <form class="" action="/search" method="post">
@@ -87,7 +79,7 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody class="bg-light">
+        <tbody style="background-color: skyblue;">
           <% allData.forEach(function(letter){  %>
           <% let chaldean = letter.chaldean %>
           <% let pythogorous = letter.pythogorous %>
@@ -117,7 +109,7 @@
             <td id="g3nettot"><%=letter.g3nettot%></td>
             <td></td>
           </tr>
-          <tr style="color:white">
+          <tr style="background-color: white;">
             <td></td>
             <td>
             </td>
@@ -125,7 +117,7 @@
             <td>-</td>
             <td></td>
             <td></td>
-            <td></td>
+            <td ></td>
           </tr>
           <% }) %>
 
