@@ -1,169 +1,4 @@
-require("dotenv").config();
-const express = require("express");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-var https = require("https");
-let theftData = [];
-const app = express();
-app.set("view engine", "ejs");
-app.use(express.static(__dirname));
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
-
-mongoose.connect(
-  "mongodb+srv://admin-raghunadh:pradyumna@cluster0.dlrxw.mongodb.net/numer?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-  }
-);
-const itemsSchema = {
-  chaldean: {
-    type: String,
-    unique: true,
-  },
-  pythogorous: String,
-  tot_letters: Number,
-  g2tot: Number,
-  g3tot: Number,
-  g2vtot: Number,
-  g3vtot: Number,
-  g2nettot: Number,
-  g3nettot: Number,
-};
-const Item = mongoose.model("Item", itemsSchema);
-app.get(["/:id"], function (req, res) {
-  res.render("index.ejs", { paramName: req.params.id });
-});
-app.get("/mongo/data", function (req, res) {
-  Item.find({}, function (err, found) {
-    if (err) {
-      console.log(err);
-      res.render("error");
-    } else {
-      res.render("saved", {
-        allData: found,
-      });
-    }
-  });
-});
-
-app.post("/mongo/data", function (req, res) {
-  const chaldeana = req.body.chaldean;
-  const pythogorousa = req.body.pythogorous;
-  const tot_lettersa = req.body.tot_letters;
-  const g2tota = req.body.g2tot;
-  const g3tota = req.body.g3tot;
-  const g2vtota = req.body.g2vtot;
-  const g3vtota = req.body.g3vtot;
-  const g2nettota = req.body.g2nettot;
-  const g3nettota = req.body.g3nettot;
-  const itemData = new Item({
-    chaldean: chaldeana,
-    pythogorous: pythogorousa,
-    tot_letters: tot_lettersa,
-    g2tot: g2tota,
-    g3tot: g3tota,
-    g2vtot: g2vtota,
-    g3vtot: g3vtota,
-    g2nettot: g2nettota,
-    g3nettot: g3nettota,
-  });
-  Item.find({}, function (err, foundItems) {
-    if (foundItems) {
-      Item.insertMany(itemData, function (err) {
-        res.redirect("/mongo/data");
-        // res.render('saved',{allData:foundItems})
-      });
-    } else {
-      res.render("saved", {
-        allData: foundItems,
-      });
-    }
-  });
-});
-app.post("/delete", function (req, res) {
-  const checkedItemId = req.body.checkbox;
-  Item.findByIdAndRemove(checkedItemId, function (err) {
-    if (!err) {
-      res.redirect("/mongo/data");
-    } else {
-      console.log("Err:" + err);
-      res.render("error");
-    }
-  });
-});
-app.post("/search", function (req, res) {
-  const searchFilter = req.body.searchFilter;
-  Item.find(
-    {
-      g2tot: searchFilter,
-    },
-    function (err, foundSearch) {
-      if (err) {
-        console.log(err);
-        res.render("error");
-      } else {
-        res.render("saved", {
-          allData: foundSearch,
-        });
-      }
-    }
-  );
-});
-
-// pythagorean
-app.post("/searchp", function (req, res) {
-  const searchpythagorean = req.body.pythagorean;
-  Item.find(
-    {
-      g3tot: searchpythagorean,
-    },
-    function (err, foundPyth) {
-      if (err) {
-        console.log(err);
-        res.render("error");
-      } else {
-        res.render("saved", {
-          allData: foundPyth,
-        });
-      }
-    }
-  );
-});
-
-app.post("/", function (req, res) {
-  var query = req.body.query;
-  var url = "https://zeppoh.com/convert?name=" + query;
-  https.get(url, function (response) {
-    const chunks = [];
-    response.on("data", function (chunk) {
-      chunks.push(chunk);
-    });
-    response.on("end", function () {
-      let number = parseInt(req.body.number);
-      let validNumber;
-      if (number === null || isNaN(number) || number === 0) {
-        validNumber = " ";
-      } else {
-        validNumber = number;
-      }
-      const data = Buffer.concat(chunks);
-      var fullData = JSON.parse(data);
-      var chaldean = fullData.name_g2_block;
-      var pythogorous = fullData.name_g3_block;
-      var tot_letters = fullData.tot_letters;
-      var g2tot = fullData.g2tot + validNumber;
-      var g3tot = fullData.g3tot + validNumber;
-      var g2vtot = fullData.g2vtot;
-      var g3vtot = fullData.g3vtot;
-      var g2nettot = fullData.g2nettot;
-      var g3nettot = fullData.g3nettot;
-      let queryAll = req.body.query;
-
-      res.write(`<!DOCTYPE html>
+<!DOCTYPE html>
       <html lang="en" dir="ltr">
           <head>
               <meta charset="utf-8">
@@ -176,20 +11,7 @@ app.post("/", function (req, res) {
                 display: none;
                 padding: 0;
                 margin: 0;
-              }
-              .full_table tr td {
-                padding: 10px 25px !important;
-              }
-              .full_table_saved tr td {
-                  padding: 5px 12px !important;
-              }
-              .c_pad_head {
-                position: sticky;
-                top: 0;
-                background-color: #1E84EB;
-                color: #fff;
-              }
-              </style>
+              }</style>
               <script src="https://cdn.tailwindcss.com"></script>
             
             </head>
@@ -258,8 +80,8 @@ app.post("/", function (req, res) {
               <section class="table">
                   <form action="/mongo/data" method="post">
                      <center>
-                        <table class="border  full_table border-green-800" style="border-collapse: collapse;width:90%;">
-                            <thead class="c_pad_head bg-green-600 text-white border border-green-800">
+                        <table class="border border-green-800 full_table" style="border-collapse: collapse;width:90%;">
+                            <thead class="bg-green-600 text-white border border-green-800">
                                 <tr>
                                     <th class="border border-green-800">Group</th>
                                     <th class="border border-green-800">Name</th>
@@ -329,15 +151,3 @@ app.post("/", function (req, res) {
       </body>
       
       </html>
-        `);
-      res.send();
-    });
-  });
-});
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 8000;
-}
-app.listen(port, function (req, res) {
-  console.log("Yes!");
-});

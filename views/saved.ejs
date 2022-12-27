@@ -5,74 +5,69 @@
   <meta charset="utf-8">
   <title>Saved Table</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg " style="background-color:#ffdf00;">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/"><span style="color:#F73173;font-weight:700;font-family: 'Sacramento', cursive;font-weight:bolder;">Astrology</span></a>
-
-      <div style="color:#F73173" class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link " style="color:#F73173;font-weight:700" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " style="color:#F73173;font-weight:700" href="/data">Data List</a>
-          </li>
+  <header class="header top-0 bg-green-600 text-white  shadow-md flex items-center justify-between px-8 py-02">
+    <!-- logo -->
+    <h1 class="w-3/12 text-2xl">
+        <a href="/" class="text-white"style="font-family: 'Sacramento', cursive;font-weight:900;">
+          Astrology
+        </a>
+    </h1>
+  
+    <!-- navigation -->
+    <nav class="nav font-semibold text-lg">
+        <ul class="flex items-center">
+            <li class="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-300 hover:text-white duration-200 cursor-pointer active">
+              <a href="/">Home</a>
+            </li>
+            <li class="p-4 border-b-2 border-green-500  text-white border-opacity-0 hover:border-opacity-300 hover:text-white duration-200 cursor-pointer">
+              <a href="/mongo/data">Data List</a>
+            </li>
+            
         </ul>
-      </div>
-    </div>
-  </nav>
+    </nav>
+  
+  
+  </header>
   <br>
   <center>
-    <img src="ganesh.png" alt="Ganesh" height="100px">
-    <h4 style="color:orange">Shree Ganeshay Namah</h4>
+    <center>
+  
+      <h4 class="text-green-500 font-bold text-lg">Shree Ganeshay Namah</h4>
+  
+    </center>
 
   </center>
   <hr noshade style="color:black">
   <center>
-    <h3 style="color:#9B1FE8" class="list_1">Data List </h3>
-    <div class="accordion  w-75" id="accordionExample">
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
-          <button class="accordion-button p-1 m-0 collapsed" style="border:2px solid #FF5733" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-            <center><strong style="color:#9B1FE8">Search (Click)</strong></center>
-          </button>
-        </h2>
-        <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <form class="" action="/search" method="post">
-              <div class="mb-3 w-25">
-                <input name="searchFilter" style="border:2px solid #E52B50;" type="text" class="form-control-sm" id="exampleInputEmail1" placeholder="Chaldean number" aria-describedby="emailHelp">
-                <button type="submit" class="btn rounded submit" style="background-color: #E52B50;color: white;padding: 3px;width:150px;margin-top:12px;" name="search">Submit</button>
+    
+    <form class="" action="/search" method="post">
+      <div >
+        <input name="searchFilter"  type="number"  class="mt-10 block p-2 pl-10 w-sm text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus-within:border-green focus-within:ring focus-within:ring-green dark:focus-within:border-green focus-within:ring-opacity-20" placeholder="Chaldean number" aria-describedby="emailHelp"><br>
+        <button type="submit" class="text-white right-2.5 bottom-2.5 bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"  name="search">Submit</button><br>
 
-            </form><br><br>
-          </div>
-          <form class="" action="/searchp" method="post">
-            <div class="mb-3 w-25">
-              <input name="pythagorean" style="border:2px solid #E52B50;" type="text" class="form-control-sm" id="exampleInputEmail1" placeholder="Pythagorean number" aria-describedby="emailHelp">
-              <button type="submit" class="btn rounded submit" style="background-color: #E52B50;color: white;padding: 3px;width:150px;margin-top:12px;" name="search">Submit</button>
-          </form><br><br>
-
-        </div>
-        <br><br>
-      </div>
-    </div>
+    </form><br>
+<form class="" action="/searchp" method="post">
+    <div >
+      <input name="pythagorean"  type="number"  class="block p-2 pl-10 w-sm text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus-within:border-green focus-within:ring focus-within:ring-green dark:focus-within:border-green focus-within:ring-opacity-20" placeholder="Pythagorean number" aria-describedby="emailHelp"><br>
+      <button type="submit" class="text-white right-2.5 bottom-2.5 bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"  name="search">Submit</button><br>
+  </form>
     </div>
     </div>
     <br><br>
+    <h3 class="text-3xl text-green-600 font-bold">Data List </h3>
+<br><br>
 
 
   </center>
@@ -80,7 +75,7 @@
   <section class="table">
     <center>
       <table class="table-bordered full_table_saved" border="1" style="border-collapse: collapse;width:90%;">
-        <thead class="c_pad_head " style="background-color:#9B1FE8">
+        <thead class="c_pad_head bg-success text-white" >
           <tr>
 
             <th>LC</th>
@@ -92,11 +87,11 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody style="color:white;">
+        <tbody class="bg-light">
           <% allData.forEach(function(letter){  %>
           <% let chaldean = letter.chaldean %>
           <% let pythogorous = letter.pythogorous %>
-          <tr style="background-color:#FFFAA0;color:black">
+          <tr>
             <td><strong><span id="tot_letters"><%=letter.tot_letters%></span></strong></td>
             <td>N</td>
             <td>
@@ -107,11 +102,11 @@
             <td id="g2nettot"><%=letter.g2nettot%></td>
             <td>
               <form class="" action="/delete" method="post">
-                <button style="border-radius:7px;" class="btn btn-danger " type="submit" name="checkbox" value="<%= letter._id %>">Delete</button>
+                <button  class="text-white  right-2.5 bottom-2.5 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" style="border-radius:10px;"  type="submit" name="checkbox" value="<%= letter._id %>">Delete</button>
               </form>
             </td>
           </tr>
-          <tr style="background-color:#FFFAA0;color:black;">
+          <tr >
             <td></td>
             <td>S</td>
             <td>
